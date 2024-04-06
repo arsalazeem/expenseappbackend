@@ -5,12 +5,12 @@ from sqlalchemy import Integer, String, DateTime, func, Boolean, JSON
 
 class User(Base):
     __tablename__ = "users"
-    id = Column(Integer, unique=True, primary_key=True, autoincrement=True, nullable=False)
-    first_name = Column(String(255), nullable=True, default="")
-    last_name = Column(String(255), nullable=True, default="")
-    email = Column(String(255), nullable=False, unique=True)
+    id = Column(Integer, unique=True, primary_key=True, autoincrement=True)
+    first_name = Column(String(255), nullable=False, default="")
+    last_name = Column(String(255), nullable=False, default="")
+    email = Column(String(255), nullable=False, unique=True, index=True)
     password = Column(String(255), nullable=False)
-    user_metadata = Column(JSON)
+    user_metadata = Column(JSON, default=lambda: {})
     is_email_verified = Column(Boolean, default=False)
     is_phone_verified = Column(Boolean, default=False)
     is_disabled = Column(Boolean, nullable=False, default=False)
