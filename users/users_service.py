@@ -1,5 +1,5 @@
 from connections import SessionManager
-from users.users_models import User
+from users.users_model import User
 from users.schemas import UserSignUpRes
 
 
@@ -17,10 +17,9 @@ def create_new_user(current_session, user_data):
         password=password
     )
     session.add(new_user)
+    session.commit()
     user_schema = UserSignUpRes()
     response_data = user_schema.dump(new_user)  # deserialize new user to return in response
-    session.commit()
-    session.close()
     return {"data": response_data}, 201
 
 

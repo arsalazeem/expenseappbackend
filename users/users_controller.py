@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
-from users.users_services import create_new_user, check_if_email_exists
+from users.users_service import check_if_email_exists, create_new_user
 from users.schemas import UserSignUpReq
 
 blp = Blueprint("users", __name__, description="users")
@@ -16,4 +16,3 @@ class UserSignUp(MethodView):
             return {"msg": "User with this email already exists"}, 409
         response = create_new_user(current_session=session, user_data=user_data)
         return response
-
