@@ -1,5 +1,7 @@
+from enum import Enum
+
 
 # to do add support for directives
-class Language(enum):
-    ENGLISH ="en"
-    FRENCH ="fe"
+class Language(Enum):
+    ENGLISH = "en"
+    FRENCH = "fe"
