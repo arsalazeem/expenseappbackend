@@ -1,16 +1,15 @@
 from connections import SessionManager
-from users.users_models import User
-from users.users_schemas import UserSchema
+from users.users_model import User
+from users.schemas import UserSignUpRes
 
 
-def create_new_user(user_data):
+def create_new_user(current_session, user_data):
     json_data = user_data
     first_name = json_data.get("first_name")
     last_name = json_data.get("last_name")
     email = json_data.get("email")
     password = json_data.get("password")
-    session_manager = SessionManager()
-    session = session_manager.create_session()
+    session = current_session
     new_user = User(
         first_name=first_name,
         last_name=last_name,
@@ -18,10 +17,9 @@ def create_new_user(user_data):
         password=password
     )
     session.add(new_user)
-    user_schema = UserSchema()
-    response_data = user_schema.dump(new_user)  # Deserialize new user to return in response
     session.commit()
-    session.close()
+    user_schema = UserSignUpRes()
+    response_data = user_schema.dump(new_user)  # deserialize new user to return in response
     return {"data": response_data}, 201
 
 
@@ -31,5 +29,6 @@ def check_if_email_exists(email: str):
     users_counts = session.query(User).filter_by(email=email).count()
     session.close()
     if users_counts > 0:
-        return True
-    return False
+        session.close()
+        return True, None
+    return False, session
