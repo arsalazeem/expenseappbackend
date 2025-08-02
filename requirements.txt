@@ -1,4 +1,5 @@
-flask
-flask-smorest
-pymysql
-cryptography
+flask~=3.1.1
+SQLAlchemy~=2.0.42
+marshmallow~=4.0.0
+python-dotenv~=1.1.1
+python-dotenv

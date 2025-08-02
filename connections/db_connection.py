@@ -1,12 +1,10 @@
 import os
-
 from sqlalchemy import create_engine, QueuePool
 from sqlalchemy.orm import sessionmaker
 import time
 from sqlalchemy.exc import OperationalError
 from connections import Base
 from dotenv import load_dotenv
-
 
 class SessionManager:
     def __init__(self):
@@ -27,7 +25,7 @@ class SessionManager:
 
     def create_connection(self):
         self.engine = create_engine(
-            f"mysql+pymysql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}",
+            f"postgresql+psycopg2://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}",
             poolclass=QueuePool,
             pool_size=self.pool_size,
             max_overflow=self.max_overflow,
@@ -48,3 +46,8 @@ class SessionManager:
                 else:
                     raise
         raise RuntimeError(f"Unable to establish a database connection after {self.max_retries} retries.")
+
+
+if __name__ == '__main__':
+    session=SessionManager()
+    session.create_session()

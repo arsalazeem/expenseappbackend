@@ -2,7 +2,6 @@ from connections import SessionManager
 from users.users_model import User
 from users.schemas import UserSignUpRes
 
-
 def create_new_user(current_session, user_data):
     json_data = user_data
     first_name = json_data.get("first_name")
